@@ -8,8 +8,10 @@ const {
     createTableOrder,
     createTableProducts,
     createTableUser,
-    createUpdateTimestampTrigger,
+    // createUpdateTimestampTrigger,
 } = require('./queries.js');
+
+const userController = require('./controller/userController.js');
 
 const PORT = process.env.PORT || 8080;
 
@@ -17,7 +19,7 @@ const app = express();
 
 app.use(express.json());
 
-// app.use('/api', userController);
+app.use('/api', userController);
 // app.use('/api/products', productsController);
 // app.use('/api/order', orderController);
 
@@ -28,7 +30,7 @@ async function initializeTable() {
     await createTableProducts();
     await createTableOrder();
 }
-// initializeTable();
+initializeTable();
 
 function dropAllTAble() {
     const tablesWithUpdatedAt = ['users', 'products', 'category', 'cart', 'orders'];

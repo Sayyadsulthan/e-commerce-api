@@ -138,5 +138,5 @@ module.exports = {
     createTableCategories,
     createTableCart,
     createTableOrder,
-    // createUpdateTimestampTrigger,
+    createUpdateTimestampTrigger,
 };
