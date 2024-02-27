@@ -20,7 +20,7 @@ const app = express();
 app.use(express.json());
 
 app.use('/api', userController);
-// app.use('/api/products', productsController);
+app.use('/api/products', productsController);
 // app.use('/api/order', orderController);
 
 async function initializeTable() {
@@ -30,7 +30,7 @@ async function initializeTable() {
     await createTableProducts();
     await createTableOrder();
 }
-initializeTable();
+// initializeTable();
 
 function dropAllTAble() {
     const tablesWithUpdatedAt = ['users', 'products', 'category', 'cart', 'orders'];
@@ -45,11 +45,11 @@ async function insertDefaultData() {
         fs.readFile('./data.json', 'utf-8', async (err, data) => {
             const Data = JSON.parse(data);
             const category = ["men's clothing", 'jewelery', 'electronics', "women's clothing"];
-            await category.forEach(async (element) => {
+            category.forEach(async (element) => {
                 await db.query(
-                    `INSERT INTO category(name,qty)
-                    VALUES($1,$2)`,
-                    [element, 0]
+                    `INSERT INTO category(name)
+                    VALUES($1)`,
+                    [element]
                 );
                 console.log(element + ' category data inserted...');
             });

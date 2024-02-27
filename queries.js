@@ -52,7 +52,6 @@ const createTableCategories = async () => {
             `CREATE TABLE IF NOT EXISTS category (
                     id SERIAL PRIMARY KEY,
                     name VARCHAR(255),
-                    qty INT,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )`
@@ -70,6 +69,7 @@ const createTableCart = async () => {
                     id SERIAL PRIMARY KEY,
                     user_id INT REFERENCES users(id),
                     product_id INT REFERENCES products(product_id),
+                    qty INT,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )`
