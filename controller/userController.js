@@ -50,7 +50,12 @@ const getUser = async (req, res) => {
         if (!email || !password)
             res.status(400).json({ message: 'email and password required...' });
 
-        const user = (await db.query(`SELECT id,first_name,last_name,email FROM users `)).rows;
+        const user = (
+            await db.query(
+                `SELECT id,first_name,last_name,email FROM users WHERE email=$1 and password=$2 `,
+                [email, password]
+            )
+        ).rows;
         if (!user[0]) res.status(400).json({ message: 'User not found..', success: false });
 
         res.status(200).json({ message: 'User Found', data: user, success: true });

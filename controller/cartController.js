@@ -1,11 +1,13 @@
 const { db } = require('../queries.js');
 
-const createcart = async (req, res) => {
+const addToCart = async (req, res) => {
     try {
         const { qty = 0 } = req.body;
         const { userid, productid } = req.query;
         if (!userid || !productid)
-            res.status(400).json({ message: 'UserId and ProductId Required!!', success: false });
+            return res
+                .status(400)
+                .json({ message: 'UserId and ProductId Required!!', success: false });
 
         await db.query(`INSERT INTO cart(user_id, product_id, qty) VALUES($1,$2,$3)`, [
             userid,
@@ -32,17 +34,33 @@ const updatecart = async (req, res) => {
     try {
         const { id } = req.params;
         const { qty = 0 } = req.body;
-        if (!id) res.status(400).json({ message: 'cart Data not Found...', success: false });
+        if (!id) return res.status(400).json({ message: 'cart Data not Found...', success: false });
 
         const data = (await db.query(`UPDATE cart SET qty=$1 WHERE id=$2`, [qty, id])).rows;
-        res.status(200).json({ message: 'Cart updated success full...', data, success: true });
+        res.status(200).json({ message: 'Cart updated successfull...', data, success: true });
+    } catch (err) {
+        res.status(200).json({ message: err.message, success: false });
+    }
+};
+const removeFromCart = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) return res.status(400).json({ message: 'cart Data not Found...', success: false });
+
+        await db.query(`DELETE FROM cart WHERE id=$1`, [id]);
+        res.status(200).json({
+            message: 'Item removed from Cart successfull...',
+            success: true,
+        });
     } catch (err) {
         res.status(200).json({ message: err.message, success: false });
     }
 };
 
 module.exports = {
-    createcart,
+    addToCart,
     getcarts,
     updatecart,
+    removeFromCart,
 };
