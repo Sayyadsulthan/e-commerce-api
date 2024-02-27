@@ -17,7 +17,7 @@ const addToCart = async (req, res) => {
 
         res.status(201).json({ message: 'Added To cart', success: true });
     } catch (err) {
-        res.status(200).json({ message: err.message, success: false });
+        res.status(500).json({ message: err.message, success: false });
     }
 };
 const getcarts = async (req, res) => {
@@ -27,7 +27,7 @@ const getcarts = async (req, res) => {
         const data = (await db.query(`SELECT * FROM cart WHERE user_id= $1`, [userid])).rows;
         res.status(200).json({ message: 'Cart data from userid ', data, success: false });
     } catch (err) {
-        res.status(200).json({ message: err.message, success: false });
+        res.status(500).json({ message: err.message, success: false });
     }
 };
 const updatecart = async (req, res) => {
@@ -39,7 +39,7 @@ const updatecart = async (req, res) => {
         const data = (await db.query(`UPDATE cart SET qty=$1 WHERE id=$2`, [qty, id])).rows;
         res.status(200).json({ message: 'Cart updated successfull...', data, success: true });
     } catch (err) {
-        res.status(200).json({ message: err.message, success: false });
+        res.status(500).json({ message: err.message, success: false });
     }
 };
 const removeFromCart = async (req, res) => {
@@ -54,7 +54,7 @@ const removeFromCart = async (req, res) => {
             success: true,
         });
     } catch (err) {
-        res.status(200).json({ message: err.message, success: false });
+        res.status(500).json({ message: err.message, success: false });
     }
 };
 
