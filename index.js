@@ -11,7 +11,9 @@ const {
     // createUpdateTimestampTrigger,
 } = require('./queries.js');
 
-const userController = require('./controller/userController.js');
+const user = require('./routes/user.js');
+const products = require('./routes/products.js');
+const cart = require('./routes/cart.js');
 
 const PORT = process.env.PORT || 8080;
 
@@ -19,9 +21,15 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/api', userController);
-app.use('/api/products', productsController);
+app.use('/api', user);
+app.use('/api', products);
+app.use('/api', cart);
 // app.use('/api/order', orderController);
+app.get('/', (req, res) => res.status(200).json({ message: 'E-commerce-api' }));
+app.use((error, req, res, next) => {
+    console.error(error.stack);
+    res.status(500).send('Something broke!');
+});
 
 async function initializeTable() {
     await createTableUser();

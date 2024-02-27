@@ -39,7 +39,7 @@ const getProducts = async (req, res) => {
         if (catogory) {
             const data = (
                 await db.query(
-                    'SELECT product_id,category_id,title,price,description,availability FROM products WHERE category_id=(SELECT id FROM category WHERE name=$1)',
+                    'SELECT p.product_id,p.title,p.price,p.description,p.availability, c.name as category FROM products as p  JOIN category as c ON p.category_id = c.id WHERE c.name =$1 LIMIT 50',
                     [catogory]
                 )
             ).rows;
@@ -48,9 +48,14 @@ const getProducts = async (req, res) => {
                 .json({ message: 'List of Products on Category', data, success: true });
         }
 
-        const data = (await db.query('SELECT * FROM products LIMIT 100')).rows;
+        const data = (
+            await db.query(
+                'SELECT p.product_id, p.title, p.price, p.description, p.availability, c.name as category FROM products as p  JOIN  category as c ON p.category_id = c.id  LIMIT 50'
+            )
+        ).rows;
         return res.status(200).json({ message: 'List of Products', data, success: true });
     } catch (err) {
+        console.error(err.stack);
         res.status(500).json({ message: err.message, success: false });
     }
 };

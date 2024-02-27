@@ -6,7 +6,8 @@ const {
     updateProducts,
 } = require('../controller/productsController.js');
 
-router.get('/products:id', getProducts);
+router.get('/products', getProducts);
+router.get('/products/:id', getProducts);
 router.post('/products', createProducts);
 router.patch('/products/:id', updateProducts);
 
