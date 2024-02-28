@@ -25,8 +25,9 @@ const getcarts = async (req, res) => {
         const { userid } = req.params;
 
         const data = (await db.query(`SELECT * FROM cart WHERE user_id= $1`, [userid])).rows;
-        res.status(200).json({ message: 'Cart data from userid ', data, success: false });
+        res.status(200).json({ message: 'Cart data from userid ', data, success: true });
     } catch (err) {
+        console.log(err.stack);
         res.status(500).json({ message: err.message, success: false });
     }
 };

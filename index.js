@@ -83,6 +83,24 @@ async function insertDefaultData() {
 
 // insertDefaultData();
 
+async function alter() {
+    try {
+        // await db.query(`ALTER TABLE users ALTER COLUMN first_name VARCHAR(50);`);
+        // await db.query(`ALTER TABLE users ALTER COLUMN first_name SET DATA TYPE VARCHAR(50);
+        // `);
+        // await db.query(`ALTER TABLE users ALTER COLUMN last_name SET DATA TYPE VARCHAR(50);
+        // `);
+        // await db.query(`ALTER TABLE users ALTER COLUMN email SET DATA TYPE VARCHAR(80);
+        // `);
+        await db.query(`ALTER TABLE users ALTER COLUMN password SET DATA TYPE VARCHAR;
+        `);
+        console.log('modify done..');
+    } catch (err) {
+        console.error(err.stack);
+    }
+}
+// alter();
+
 app.listen(PORT, () => {
     console.log('Server running on port: ', PORT);
 });

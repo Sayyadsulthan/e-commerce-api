@@ -12,10 +12,10 @@ const createTableUser = async () => {
         await db.query(
             `CREATE TABLE IF NOT EXISTS users (
                     id SERIAL PRIMARY KEY,
-                    first_name VARCHAR(20),
-                    last_name VARCHAR(20),
-                    email VARCHAR(20),
-                    password VARCHAR(10) NOT NULL,
+                    first_name VARCHAR(50),
+                    last_name VARCHAR(50),
+                    email VARCHAR(80),
+                    password VARCHAR NOT NULL,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )`

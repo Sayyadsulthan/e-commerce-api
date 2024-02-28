@@ -29,12 +29,7 @@ const createProducts = async (req, res) => {
 
 const getProducts = async (req, res) => {
     try {
-        const { id } = req.params;
         const { catogory } = req.query;
-        if (id) {
-            const data = (await db.query('SELECT * FROM products WHERE product_id=$1', [id])).rows;
-            return res.status(200).json({ message: 'Product found', data, success: true });
-        }
 
         if (catogory) {
             const data = (
@@ -54,6 +49,21 @@ const getProducts = async (req, res) => {
             )
         ).rows;
         return res.status(200).json({ message: 'List of Products', data, success: true });
+    } catch (err) {
+        console.error(err.stack);
+        res.status(500).json({ message: err.message, success: false });
+    }
+};
+
+const getOneProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!id) {
+            return res.status(400).json({ message: 'Product must have id', success: false });
+        }
+
+        const data = (await db.query('SELECT * FROM products WHERE product_id=$1', [id])).rows;
+        return res.status(200).json({ message: 'Product found', data: data[0], success: true });
     } catch (err) {
         console.error(err.stack);
         res.status(500).json({ message: err.message, success: false });
@@ -91,5 +101,6 @@ const updateProducts = async (req, res) => {
 module.exports = {
     createProducts,
     getProducts,
+    getOneProduct,
     updateProducts,
 };
